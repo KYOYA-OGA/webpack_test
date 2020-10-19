@@ -12,7 +12,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css/,
+        test: /\.(css|sass|scss)/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -20,16 +20,28 @@ module.exports = {
           {
             loader: 'css-loader',
           },
+          {
+            loader: 'sass-loader',
+          },
         ],
       },
       {
-        test: /\.(png|jpg)/,
+        test: /\.(png|jpg|jpeg)/,
         use: [
           {
             loader: 'file-loader',
             options: {
               esModule: false,
               name: 'images/[name].[ext]',
+            },
+          },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              mozjpeg: {
+                progressive: true,
+                quality: 65,
+              },
             },
           },
         ],
@@ -42,7 +54,9 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: './src/templates/index.html',
+      filename: 'index.html',
     }),
+
     new CleanWebpackPlugin(),
   ],
 };
